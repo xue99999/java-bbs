@@ -2,8 +2,19 @@
     pageEncoding="gbk"%>
 <%@ page import="java.sql.*" %>
 
+<%
+	String admin = (String)session.getAttribute("admin");
+
+	if (admin != null && admin.equals("true")) {
+		login = true;
+	}
+	
+%>
+
 <%!
 	String str = "";
+	boolean login = false;
+	
 	private void tree(Connection conn, int id, int level) {
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -17,15 +28,19 @@
 			String sql = "select * from article where pid = " + id;
 			stmt = conn.createStatement();
 			rs = stmt.executeQuery(sql);
+			String strLogin = "";
 			
 			while(rs.next()) {
+				if (login) {
+					strLogin = "<td>" + "<a href='delete.jsp?id=" + rs.getInt("id") 
+					+ "&pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a></td>";
+				}
 				str += "<tr><td>" + rs.getInt("id") 
 				 	+ "</td><td>" + preStr + "<a href= 'showArticleDetail.jsp?id=" 
 					+ rs.getInt("id") +"'>" 
-					+ rs.getString("title") + "</a>" 
-					+ "</td><td>" + "<a href='delete.jsp?id=" + rs.getInt("id") 
-					+ "&pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a>"
-					+ "</td></tr>";
+					+ rs.getString("title") + "</a></td>" 
+					+ strLogin
+					+ "</tr>";
 				
 				if (rs.getInt("isleaf") != 0) {
 					tree(conn, rs.getInt("id"), level + 1);
@@ -56,15 +71,20 @@
 	Statement stmt = conn.createStatement();
     ResultSet rs = stmt.executeQuery("select * from article where pid = 0");
     
+    String strLogin = "";
     
     while(rs.next()) {
+    	if (login) {
+			strLogin = "<td>" + "<a href='delete.jsp?id=" + rs.getInt("id") 
+			+ "&pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a></td>";
+		}
+    	
     	str += "<tr><td>" + rs.getInt("id") 
 		 	+ "</td><td>" + "<a href= 'showArticleDetail.jsp?id=" 
 	    	+ rs.getInt("id") +"'>" 
-	    	+ rs.getString("title") + "</a>"
-			+ "</td><td>" + "<a href='delete.jsp?id=" + rs.getInt("id") 
-			+ "&pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a>"
-		 	+ "</td></tr>";
+	    	+ rs.getString("title") + "</a></td>"
+			+ strLogin
+		 	+ "</tr>";
 	 	
 	 	if (rs.getInt("isleaf") != 0) {
 	 		tree(conn, rs.getInt("id"), 1);
@@ -83,10 +103,15 @@
 <title>Insert title here</title>
 </head>
 <body>
-
+	<a href='post.jsp'>·¢±íÐÂÌû</a>
+	<br>
+	
 	<table border="1">
 		<%= str %>
-		<% str = ""; %>
+		<% 
+		str = "";
+		login = false;
+		%>
 	</table>
 </body>
 </html>
