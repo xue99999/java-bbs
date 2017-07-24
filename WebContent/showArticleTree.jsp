@@ -24,7 +24,7 @@
 					+ rs.getInt("id") +"'>" 
 					+ rs.getString("title") + "</a>" 
 					+ "</td><td>" + "<a href='delete.jsp?id=" + rs.getInt("id") 
-					+ "pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a>"
+					+ "&pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a>"
 					+ "</td></tr>";
 				
 				if (rs.getInt("isleaf") != 0) {
@@ -56,13 +56,14 @@
 	Statement stmt = conn.createStatement();
     ResultSet rs = stmt.executeQuery("select * from article where pid = 0");
     
+    
     while(rs.next()) {
     	str += "<tr><td>" + rs.getInt("id") 
 		 	+ "</td><td>" + "<a href= 'showArticleDetail.jsp?id=" 
 	    	+ rs.getInt("id") +"'>" 
 	    	+ rs.getString("title") + "</a>"
 			+ "</td><td>" + "<a href='delete.jsp?id=" + rs.getInt("id") 
-			+ "pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a>"
+			+ "&pid=" + rs.getInt("pid") +"'>" + "É¾³ý</a>"
 		 	+ "</td></tr>";
 	 	
 	 	if (rs.getInt("isleaf") != 0) {
