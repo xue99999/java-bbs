@@ -34,7 +34,17 @@
 			}
 		}
 
-	}%>
+	}
+%>
+
+<%
+	String admin = (String)session.getAttribute("admin");
+	
+	if (admin == null || !admin.equals("true")) {
+		out.print("小贼, 别想删除我数据库!");
+		return;
+	}
+%>
 
 <%
 	int id = Integer.parseInt(request.getParameter("id"));
