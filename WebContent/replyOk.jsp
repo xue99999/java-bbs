@@ -8,7 +8,32 @@
 	int id = Integer.parseInt(request.getParameter("id"));
 	int rootid = Integer.parseInt(request.getParameter("rootid"));
 	String title = request.getParameter("title");
+	
+	if (title == null) {
+		out.print("title error!");
+		return;
+	}
+	
+	title = title.trim();
+	
+	if (title.equals("")) {
+		out.print("title could not be empty!");
+		return;
+	}
+	
 	String cont = request.getParameter("cont");
+	
+	if (cont == null) {
+		out.print("cont error!");
+		return;
+	}
+	
+	cont = cont.trim();
+	
+	if (cont.equals("")) {
+		out.print("cont could not be empty!");
+		return;
+	}
 	
 	//吧换行正确显示
 	cont = cont.replace("\n", "<br>"); 

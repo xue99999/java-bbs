@@ -63,5 +63,23 @@
 	共<%= totalPage %>页  &nbsp;&nbsp; 第<%= pageNo %>页 &nbsp;&nbsp;
 	<a href="showArticleFlat.jsp?pageNo=<%= pageNo-1 %>">上一页</a>&nbsp;&nbsp;
 	<a href="showArticleFlat.jsp?pageNo=<%= pageNo+1 %>">下一页</a>
+	
+	<br><br>
+	
+	<form name="form1" action="showArticleFlat.jsp">
+		<select name="pageNo" onchange="document.form1.submit();">
+			<% for(int i = 1; i <= totalPage; i++) { %>
+				<option value="<%= i %>" <%= pageNo == i ? "selected" : "" %>>第<%= i %>页</option>
+			<% } %>
+		</select>
+	</form>
+	
+	<br>
+	<br>
+	
+	<form name="form2" action="showArticleFlat.jsp">
+		<input type="text" name="pageNo" value="<%= pageNo %>" />
+		<input type="submit" value="提交" />
+	</form>
 </body>
 </html>
